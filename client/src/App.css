@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "ProximaNova";
+  src: url("./assets/fonts/Fontspring-DEMO-proximanovacond-regular.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ProximaNova";
+  src: url("./assets/fonts/Fontspring-DEMO-proximanova-black.otf")
+    format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nelphim";
+  src: url("./assets/fonts/Nephilm.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nelphim";
+  src: url("./assets/fonts/NephilmItalic.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
