@@ -1,14 +1,69 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 import { Button } from "@mui/material";
-
-import { emails } from "../../constants/dummyEmails";
+import { emails as dummyEmails } from "../../constants/dummyEmails";
 import EmailPreview from "./EmailPreview";
+import { useGetEmailsByUsername } from "../../api/email/queries";
+import NoInbox from "../../assets/message.png";
 
-const Inbox = () => {
+const Inbox = ({ data, isPending, error, isSuccess, refetch }) => {
+  const [emails, setEmails] = useState([]);
+  const [timer, setTimer] = useState(7);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleRefresh = () => {
+    refetch();
+    setTimer(7);
+  };
+
+  const filteredEmails = useMemo(() => {
+    if (!emails) return [];
+
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+    return emails.filter((email) => {
+      const senderUsername = email.sender?.username?.toLowerCase() || "";
+      const subject = email.subject?.toLowerCase() || "";
+      const text = email.text?.toLowerCase() || "";
+
+      return (
+        senderUsername.includes(lowerCaseSearchTerm) ||
+        subject.includes(lowerCaseSearchTerm) ||
+        text.includes(lowerCaseSearchTerm)
+      );
+    });
+  }, [emails, searchTerm]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setEmails(data?.data?.emails || []);
+    }
+  }, [isSuccess, data]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          refetch();
+          return 7;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [refetch]);
+
   return (
-    <div className="grow bg-[#202224] flex flex-col px-6">
+    <div
+      className="grow bg-[#202224] flex flex-col px-6"
+      style={{ width: "calc(100% - 50rem)" }}
+    >
       <div className="my-6 flex items-end justify-between">
         <h1
           className="text-center h-full text-white text-4xl font-nelPhim bg-clip-text text-transparent bg-gradient-to-r from-[#e89efc] to-[#6898f6]"
@@ -23,12 +78,14 @@ const Inbox = () => {
               type="text"
               placeholder="Search Mail"
               className="w-full outline-none text-white/70 bg-transparent"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
       </div>
       <div className="grow bg-[#141516] rounded-tl-2xl rounded-tr-2xl overflow-hidden">
-        <div className="py-2 px-2">
+        <div className="py-2 px-2 border-b border-white/20">
           <Button
             variant="text"
             sx={{
@@ -40,14 +97,27 @@ const Inbox = () => {
                 backgroundColor: "rgba(255, 255, 255, 0.1)",
               },
             }}
-            className="hover:animate-reverse-spin"
+            className={isPending ? "animate-reverse-spin" : ""}
+            onClick={handleRefresh}
           >
             <ReplayRoundedIcon className="text-white/80" />
           </Button>
+          <span className="text-sm text-gray-500">
+            Auto-refreshing in {timer} seconds
+          </span>
         </div>
-        {emails.map((email, index) => (
-          <EmailPreview key={index} email={email} index={index} />
-        ))}
+        {filteredEmails && filteredEmails.length > 0 ? (
+          filteredEmails.map((email, index) => (
+            <EmailPreview key={index} email={email} index={index} />
+          ))
+        ) : (
+          <div className="w-full h-full flex flex-col justify-center items-center">
+            <img className="w-[40%]" src={NoInbox} />
+            <p className="text-white/50 font-bold font-proximaNova text-3xl mt-4">
+              Your inbox is currently empty.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

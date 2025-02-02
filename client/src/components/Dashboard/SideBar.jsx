@@ -3,11 +3,11 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { Button } from "@mui/material";
 import { sidebar, sidebarFooter } from "../../constants/sideBarConstants";
 import MenuItems from "./MenuItems";
+import { useGetUnreadEmailsByUsername } from "../../api/email/queries";
 
-const SideBar = () => {
+const SideBar = ({ activeBar, setActiveBar, isMailDetails = false }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [width, setWidth] = useState("w-[20rem]");
-  const [selectedMenu, setSelectedMenu] = useState(0);
+  const [width, setWidth] = useState("w-[15rem]");
 
   const handleDrawer = () => {
     setIsCollapsed((prev) => !prev);
@@ -17,7 +17,7 @@ const SideBar = () => {
     if (isCollapsed) {
       setWidth("w-[5rem]");
     } else {
-      setWidth("w-[17rem]");
+      setWidth("w-[15rem]");
     }
   }, [isCollapsed]);
 
@@ -50,9 +50,9 @@ const SideBar = () => {
               item={item}
               index={index}
               isCollapsed={isCollapsed}
-              setSelectedMenu={setSelectedMenu}
-              isActive={selectedMenu === index}
-              number={index === 0 && "1,200"}
+              isActive={activeBar === index}
+              setActiveBar={setActiveBar}
+              isMailDetails={isMailDetails}
             />
           );
         })}

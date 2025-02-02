@@ -8,7 +8,7 @@ export default {
     },
     extend: {
       animation: {
-        "reverse-spin": "spin 1s linear 1 reverse",
+        "reverse-spin": "spin 1s linear infinite reverse",
       },
     },
   },

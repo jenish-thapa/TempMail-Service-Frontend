@@ -1,13 +1,15 @@
 import React from "react";
 import { Routes, Route, Link, Dashboard } from "./imports/imports";
 import "./App.css";
+import EmailDetails from "./pages/EmailDetails/EmailDetails";
 
 function App() {
   return (
     <div className="w-full h-full">
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/mail/inbox" element={<Dashboard />} />
+        <Route path="/mail/inbox/:id" element={<EmailDetails />} />
         {/* <Route path="/contact" element={<Contact />} /> */}
       </Routes>
     </div>
