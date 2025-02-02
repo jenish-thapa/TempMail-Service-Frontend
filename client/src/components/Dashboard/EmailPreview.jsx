@@ -89,7 +89,7 @@ const EmailPreview = ({ email, index }) => {
       exit="hidden"
     >
       <div
-        className={`relative px-4 overflow-= py-[15px] border-b border-white/20 flex items-center cursor-pointer transition-all duration-100
+        className={`relative px-4 overflow-hidden py-[15px] border-b border-white/20 flex items-center cursor-pointer transition-all duration-100
         hover:translate-y-[-2px] hover:bg-[rgba(129,135,247,0.8)] hover:drop-shadow-[3px_3px_5px_rgba(255,255,255,0.4)]
      ${
        email.status === "received"
@@ -160,7 +160,7 @@ const EmailPreview = ({ email, index }) => {
         <div
           className={`absolute flex justify-center bottom-[16px] items-center ${
             showTime ? "-right-20" : "right-4"
-          } right-4 min-w-[5rem] max-w-[5rem] transition-all duration-700 ease-out`}
+          } min-w-[5rem] max-w-[5rem] transition-all duration-700 ease-out`}
         >
           <Button
             variant="text"
