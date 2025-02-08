@@ -159,7 +159,7 @@ const EmailGeneration = ({ isPending: emailFetchPending, refetch }) => {
           </div>
         </div>
         <div className="text-white my-6">
-          <div className="w-fit text-lg text-white font-proximaNova mx-auto">
+          <div className="w-fit text-white/80 mx-auto">
             <p>🗑️ Temporary & disposable</p>
             <p>🥷 Secure & anonymous</p>
             <p>💸 Free to use</p>
