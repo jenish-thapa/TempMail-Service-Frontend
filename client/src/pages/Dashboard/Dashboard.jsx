@@ -20,7 +20,7 @@ const Dashboard = () => {
 
   const {
     data: allEmailsData,
-    isPending: allEmailsPending,
+    isFetching: allEmailsPending,
     error: allEmailsError,
     isSuccess: allEmailsSuccess,
     refetch: refetchAllEmails,
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   const {
     data: starredEmailsData,
-    isPending: starredEmailsPending,
+    isFetching: starredEmailsPending,
     error: starredEmailsError,
     isSuccess: starredEmailsSuccess,
     refetch: refetchStarredEmails,
