@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Inbox = ({ data, isPending, error, isSuccess, refetch }) => {
   const navigate = useNavigate();
   const [emails, setEmails] = useState([]);
-  const [timer, setTimer] = useState(7);
+  const [timer, setTimer] = useState(20);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event) => {
@@ -21,7 +21,7 @@ const Inbox = ({ data, isPending, error, isSuccess, refetch }) => {
 
   const handleRefresh = () => {
     refetch();
-    setTimer(7);
+    setTimer(20);
   };
 
   const filteredEmails = useMemo(() => {
@@ -53,7 +53,7 @@ const Inbox = ({ data, isPending, error, isSuccess, refetch }) => {
       setTimer((prevTimer) => {
         if (prevTimer === 0) {
           refetch();
-          return 7;
+          return 20;
         }
         return prevTimer - 1;
       });
