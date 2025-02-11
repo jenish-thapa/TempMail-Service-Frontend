@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { emails as dummyEmails } from "../../constants/dummyEmails";
 import EmailPreview from "./EmailPreview";
 import { useGetEmailsByUsername } from "../../api/email/queries";
@@ -92,7 +92,7 @@ const Inbox = ({ data, isPending, error, isSuccess, refetch }) => {
           </div>
         </div>
       </div>
-      <div className="grow bg-[#141516] rounded-tl-2xl rounded-tr-2xl overflow-hidden">
+      <div className="relative grow bg-[#141516] rounded-tl-2xl rounded-tr-2xl overflow-hidden">
         <div className="py-2 px-2 border-b border-white/20">
           <Button
             variant="text"
@@ -114,17 +114,34 @@ const Inbox = ({ data, isPending, error, isSuccess, refetch }) => {
             Auto-refreshing in {timer} seconds
           </span>
         </div>
-        {filteredEmails && filteredEmails.length > 0 ? (
-          filteredEmails.map((email, index) => (
-            <EmailPreview key={index} email={email} index={index} />
-          ))
-        ) : (
-          <div className="w-full h-full flex flex-col justify-center items-center">
-            <img className="w-[40%]" src={NoInbox} />
-            <p className="text-white/50 font-bold font-proximaNova text-3xl mt-4">
-              Your inbox is currently empty.
-            </p>
+
+        {isPending && (
+          <div className="absolute inset-0 flex justify-center items-center">
+            <CircularProgress
+              sx={{
+                color: "rgba(129,135,247,1)",
+                width: "3.5rem !important",
+                height: "3.5rem !important",
+              }}
+            />
           </div>
+        )}
+
+        {!isPending && (
+          <>
+            {filteredEmails && filteredEmails.length > 0 ? (
+              filteredEmails.map((email, index) => (
+                <EmailPreview key={index} email={email} index={index} />
+              ))
+            ) : (
+              <div className="w-full h-full flex flex-col justify-center items-center">
+                <img className="w-[40%]" src={NoInbox} alt="No Inbox" />
+                <p className="text-white/50 font-bold font-proximaNova text-3xl mt-4">
+                  Your inbox is currently empty.
+                </p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -15,7 +15,7 @@ const EmailGeneration = ({ isPending: emailFetchPending, refetch }) => {
   const [emails, setEmails] = useState(
     JSON.parse(localStorage.getItem("emails")) || []
   );
-  
+
   const [activeEmailIndex, setActiveEmailIndex] = useState(
     parseInt(localStorage.getItem("index"), 10) || 0
   );
@@ -48,14 +48,16 @@ const EmailGeneration = ({ isPending: emailFetchPending, refetch }) => {
   };
 
   const handleAddUser = () => {
-    if (emails.length < 3) {
-      generateEmail();
-    } else {
-      toast.error(
-        <p className="text-center">
-          Max limit of visible emails on your dashboard reached!
-        </p>
-      );
+    if (!isPending) {
+      if (emails.length < 3) {
+        generateEmail();
+      } else {
+        toast.error(
+          <p className="text-center">
+            Max limit of visible emails on your dashboard reached!
+          </p>
+        );
+      }
     }
   };
 
@@ -90,7 +92,7 @@ const EmailGeneration = ({ isPending: emailFetchPending, refetch }) => {
     setActiveEmailIndex(newIndex);
     localStorage.setItem("index", newIndex);
 
-    toast.success("Email deleted successfuly!")
+    toast.success("Email deleted successfuly!");
   };
 
   const toggleUser = (index) => {
